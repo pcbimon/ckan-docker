@@ -46,6 +46,10 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:5000"]
+      start_period: 60s
+      interval: 10s
+      timeout: 5s
+      retries: 5
     
   datapusher:
     networks:
@@ -55,6 +59,10 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
+      start_period: 60s
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db:
     build:
@@ -76,6 +84,10 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      start_period: 60s
+      interval: 10s
+      timeout: 5s
+      retries: 5
      
   solr:
     networks:
@@ -86,6 +98,10 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8983/solr/"]
+      start_period: 60s
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:${REDIS_VERSION}
