@@ -80,6 +80,13 @@ fi
 
 # Start supervisord
 supervisord --configuration /etc/supervisord.conf &
-
-# Start the server as the ckan user with automatic reload
-su ckan -c "/usr/bin/ckan -c $CKAN_INI run -H 0.0.0.0"
+if [ "$SERVICE_NAME" = "CKAN" ]; then
+    # Start the server as the ckan user with automatic reload
+    su ckan -c "/usr/bin/ckan -c $CKAN_INI run -H 0.0.0.0"
+elif [ "$SERVICE_NAME" = "CKAN_XLOADER" ]; then
+    # run the xloader jobs worker
+    echo "Running xloader jobs worker"
+    ckan jobs worker
+else
+    echo "Unknown service name: $SERVICE_NAME"
+fi

@@ -3,6 +3,7 @@ version: "3"
 
 volumes:
   ckan_storage:
+  ckan_xloader_storage:
   pg_data:
   solr_data:
 
@@ -32,6 +33,8 @@ services:
       - dbnet
       - solrnet
       - redisnet
+    environment:
+      - SERVICE_NAME=CKAN
     env_file:
       - .env
     depends_on:
@@ -43,7 +46,7 @@ services:
         condition: service_healthy
     volumes:
       - ckan_storage:/var/lib/ckan
-    restart: unless-stopped
+    # restart: unless-stopped
     healthcheck:
       test: curl --max-time 10 -f http://localhost:5000/api/3 || exit 1
       # first startup and config takes really long
@@ -51,7 +54,38 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    
+  ckan-xloader:
+    build:
+      context: ckan/
+      dockerfile: Dockerfile
+      args:
+        - TZ=${TZ}
+    networks:
+      - ckannet
+      - dbnet
+      - solrnet
+      - redisnet
+    environment:
+      - SERVICE_NAME=CKAN_XLOADER
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      solr:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ckan_xloader_storage:/var/lib/ckan
+    # restart: unless-stopped
+    healthcheck:
+      test: curl --max-time 10 -f http://localhost:5000/api/3 || exit 1
+      # first startup and config takes really long
+      start_period: 240s
+      interval: 10s
+      timeout: 10s
+      retries: 5
   datapusher:
     networks:
       - ckannet
