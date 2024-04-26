@@ -1,4 +1,4 @@
-FROM ckan/ckan-base:2.9
+FROM ckan/ckan-base:2.9.9
 
 # Install any extensions needed by your CKAN instance
 # - Make sure to add the plugins to CKAN__PLUGINS in the .env file
@@ -22,8 +22,13 @@ RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=
 # will also require gather_consumer and fetch_consumer processes running (please see https://github.com/ckan/ckanext-harvest)
 
 ### Scheming ###
-#RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
-
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
+### Hierarchy ###
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-hierarchy.git#egg=ckanext-hierarchy'
+### PDF View ###
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-pdfview.git#egg=ckanext-pdfview'
+### Thai GDC ###
+# RUN  pip3 install -e 'git+https://gitlab.nectec.or.th/opend/ckanext-thai_gdc.git@v2.1.0#egg=ckanext-thai_gdc'
 ### Pages ###
 #RUN  pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
 
