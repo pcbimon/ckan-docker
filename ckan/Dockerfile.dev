@@ -36,7 +36,8 @@ RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=
 
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
-
+COPY setup/start_ckan_development.sh.override ${APP_DIR}/start_ckan.sh
+RUN pip install -r ${APP_DIR}/src/ckan/dev-requirements.txt
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
 COPY patches ${APP_DIR}/patches
