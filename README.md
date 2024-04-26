@@ -1,5 +1,5 @@
 # Docker Compose setup for CKAN
-[![Build Status](badge)](![link](https://github.com/pcbimon/ckan-docker/actions/workflows/build.yml/badge.svg))
+[![Build Status](badge)](https://github.com/pcbimon/ckan-docker/actions/workflows/build.yml/badge.svg)
 
 * [Overview](#overview)
 * [Installing Docker](#installing-docker)
