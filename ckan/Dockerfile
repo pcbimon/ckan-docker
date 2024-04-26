@@ -1,17 +1,17 @@
-FROM ckan/ckan-base:2.9
+FROM ckan/ckan-base:2.9.9
 
 # Install any extensions needed by your CKAN instance
 # See Dockerfile.dev for more details and examples
 ### Scheming ###
 RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
 ### Hierarchy ###
-RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-hierarchy.git#egg=ckanext-hierarchy'
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-hierarchy.git#egg=ckanext-hierarchy' && \
+     pip3 install -r ${APP_DIR}/src/ckanext-hierarchy/requirements.txt
 ### PDF View ###
 RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-pdfview.git#egg=ckanext-pdfview'
-### Thai GDC ###
-# RUN  pip3 install -e 'git+https://gitlab.nectec.or.th/opend/ckanext-thai_gdc.git@v2.1.0#egg=ckanext-thai_gdc'
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
+COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
 RUN pip install -r ${APP_DIR}/src/ckan/requirements.txt
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
