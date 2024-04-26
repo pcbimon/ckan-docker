@@ -5,6 +5,7 @@ FROM ckan/ckan-base:2.9
 
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
+RUN pip install -r ${APP_DIR}/src/ckan/requirements.txt
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
