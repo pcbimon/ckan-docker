@@ -46,7 +46,7 @@ services:
         condition: service_healthy
     volumes:
       - ckan_storage:/var/lib/ckan
-    # restart: unless-stopped
+    restart: unless-stopped
     healthcheck:
       test: curl --max-time 10 -f http://localhost:5000/api/3 || exit 1
       # first startup and config takes really long
@@ -78,25 +78,13 @@ services:
         condition: service_healthy
     volumes:
       - ckan_xloader_storage:/var/lib/ckan
-    # restart: unless-stopped
+    restart: unless-stopped
     healthcheck:
       test: curl --max-time 10 -f http://localhost:5000/api/3 || exit 1
       # first startup and config takes really long
       start_period: 240s
       interval: 10s
       timeout: 10s
-      retries: 5
-  datapusher:
-    networks:
-      - ckannet
-      - dbnet
-    image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
-      start_period: 60s
-      interval: 10s
-      timeout: 5s
       retries: 5
 
   db:
