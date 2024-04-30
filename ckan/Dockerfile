@@ -18,7 +18,7 @@ RUN pip install --upgrade pip
 # COPY plugins/thai_gdc/* ${APP_DIR}/src/ckanext-thaigdc
 # RUN pip install -r ${APP_DIR}/src/ckanext-thaigdc/requirements.txt
 RUN  pip3 install -e 'git+https://gitlab.nectec.or.th/opend/ckanext-thai_gdc.git@v2.1.0#egg=ckanext-thai_gdc'
-RUN pip install -r src/ckanext-thai-gdc/requirements.txt
+RUN pip3 install -r ${APP_DIR}/src/ckanext-thai-gdc/requirements-py3.txt
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
 COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
