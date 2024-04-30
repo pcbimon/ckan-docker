@@ -13,10 +13,6 @@ RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=
    pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
    pip3 install -U requests[security]
 ### Thai GDC ###
-RUN pip install --upgrade pip
-# RUN mkdir ${APP_DIR}/src/ckanext-thaigdc
-# COPY plugins/thai_gdc/* ${APP_DIR}/src/ckanext-thaigdc
-# RUN pip install -r ${APP_DIR}/src/ckanext-thaigdc/requirements.txt
 RUN  pip3 install -e 'git+https://gitlab.nectec.or.th/opend/ckanext-thai_gdc.git@v2.1.0#egg=ckanext-thai_gdc'
 RUN pip3 install -r ${APP_DIR}/src/ckanext-thai-gdc/requirements-py3.txt
 # Copy custom initialization scripts
