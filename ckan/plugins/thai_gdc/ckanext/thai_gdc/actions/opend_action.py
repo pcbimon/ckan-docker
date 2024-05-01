@@ -300,47 +300,4 @@ def resource_view_delete(context, data_dict):
     model.repo.commit()
     pkg_dict = _get_action('package_patch')(dict(context, return_type='dict'),
         {'id': context['resource'].package_id})
-
-def resource_view_reorder(context, data_dict):
-    '''Reorder resource views.
-
-    :param id: the id of the resource
-    :type id: string
-    :param order: the list of id of the resource to update the order of the views
-    :type order: list of strings
-
-    :returns: the updated order of the view
-    :rtype: dictionary
-    '''
-    model = context['model']
-    id, order = _get_or_bust(data_dict, ["id", "order"])
-    if not isinstance(order, list):
-        raise ValidationError({"order": "Must supply order as a list"})
-    if len(order) != len(set(order)):
-        raise ValidationError({"order": "No duplicates allowed in order"})
-    resource = model.Resource.get(id)
-    context['resource'] = resource
-
-    _check_access('resource_view_reorder', context, data_dict)
-
-    q = model.Session.query(model.ResourceView.id).filter_by(resource_id=id)
-    existing_views = [res[0] for res in
-                      q.order_by(model.ResourceView.order).all()]
-    ordered_views = []
-    for view in order:
-        try:
-            existing_views.remove(view)
-            ordered_views.append(view)
-        except ValueError:
-            raise ValidationError(
-                {"order": "View {view} does not exist".format(view=view)}
-            )
-    new_order = ordered_views + existing_views
-
-    for num, view in enumerate(new_order):
-        model.Session.query(model.ResourceView).\
-            filter_by(id=view).update({"order": num + 1})
-    model.Session.commit()
-    pkg_dict = _get_action('package_patch')(dict(context, return_type='dict'),
-        {'id': context['resource'].package_id})
-    return {'id': id, 'order': new_order}
+    

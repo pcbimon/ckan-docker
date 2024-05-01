@@ -47,7 +47,7 @@
       {%- snippet form_snippet, field=field, data=data, errors=errors,
         licenses=licenses, entity_type=entity_type, object_type=object_type -%}
     {% endif %}
-    {% elif request.endpoint == 'resource.new' or request.endpoint == 'resource.edit' or request.endpoint == 'dataset_resource.new' or request.endpoint == 'dataset_resource.edit'  %}
+{% elif request.endpoint == 'resource.new' or request.endpoint == 'resource.edit'  %}
   {% set form_data_type = field.form_data_type %}
   {% if package_data_type in form_data_type %}
     {%- set form_snippet = field.form_snippet -%}

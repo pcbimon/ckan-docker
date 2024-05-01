@@ -22,10 +22,6 @@ from ckan.plugins.toolkit import (
 from ckan.controllers.home import CACHE_PARAMETERS
 import ckan.logic.schema as schema_
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 _validate = dict_fns.validate
 ValidationError = logic.ValidationError
 NotFound = logic.NotFound
@@ -72,7 +68,7 @@ class DatasetImportController(p.toolkit.BaseController):
             record_df["name"] = record_df["name"].str.lower()
             record_df["name"].replace('\s', '-', regex=True, inplace=True)
             if data_dict['template_org'] != 'all':
-                record_df = record_df.loc[record_df['owner_org'] == str(data_dict['template_org']).encode('utf-8')]
+                record_df = record_df.loc[record_df['owner_org'] == data_dict['template_org']]
                 record_df.reset_index(drop=True, inplace=True)
             record_df["owner_org"] = data_dict['owner_org']
             record_df["private"] = True
@@ -106,7 +102,7 @@ class DatasetImportController(p.toolkit.BaseController):
             record_df['data_format'] = np.where(record_df['data_format_other'] == 'True', record_df['data_format'], u'อื่นๆ')
             record_df['data_format_other'].replace('True', '', regex=True, inplace=True)
 
-            license_id_choices = ['Open Data Common', 'Creative Commons Attributions','Creative Commons Attribution Non-Commercial','Creative Commons Attribution Share-Alike','Creative Commons Attribution Non-Commercial Share-Alike','Creative Commons Attribution No-Derivs','Creative Commons Attribution Non-Commercial No-Derivs']
+            license_id_choices = ['License not specified', 'Creative Commons Attributions','Creative Commons Attribution Share-Alike','Creative Commons Non-Commercial (Any)','Open Data Common','GNU Free Documentation License']
             record_df['license_id_other'] = record_df['license_id'].isin(license_id_choices)
             record_df['license_id_other'] = np.where(record_df['license_id_other'], 'True', record_df['license_id'])
             record_df['license_id'] = np.where(record_df['license_id_other'] == 'True', record_df['license_id'], u'อื่นๆ')
@@ -160,7 +156,7 @@ class DatasetImportController(p.toolkit.BaseController):
                 record_df.loc[record_df['name'] == pkg_meta['name'], 'success'] = '1'
             except Exception as err:
                 record_df.loc[record_df['name'] == pkg_meta['name'], 'success'] = '0'
-                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err)+'\n'
+                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err).encode('utf-8').decode('unicode-escape')+'\n'
                 activity_dict = {"data": {"import_id": data_dict["import_uuid"], "import_status": "Running", "import_log": log_str}, 
                     "user_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
                     "object_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
@@ -220,7 +216,7 @@ class DatasetImportController(p.toolkit.BaseController):
             stat_df["name"] = stat_df["name"].str.lower()
             stat_df["name"].replace('\s', '-', regex=True, inplace=True)
             if data_dict['template_org'] != 'all':
-                stat_df = stat_df.loc[stat_df['owner_org'] == str(data_dict['template_org']).encode('utf-8')]
+                stat_df = stat_df.loc[stat_df['owner_org'] == data_dict['template_org']]
                 stat_df.reset_index(drop=True, inplace=True)
             stat_df["owner_org"] = data_dict['owner_org']
             stat_df["private"] = True
@@ -253,7 +249,7 @@ class DatasetImportController(p.toolkit.BaseController):
             stat_df['data_format'] = np.where(stat_df['data_format_other'] == 'True', stat_df['data_format'], u'อื่นๆ')
             stat_df['data_format_other'].replace('True', '', regex=True, inplace=True)
 
-            license_id_choices = ['Open Data Common', 'Creative Commons Attributions','Creative Commons Attribution Non-Commercial','Creative Commons Attribution Share-Alike','Creative Commons Attribution Non-Commercial Share-Alike','Creative Commons Attribution No-Derivs','Creative Commons Attribution Non-Commercial No-Derivs']
+            license_id_choices = ['License not specified', 'Creative Commons Attributions','Creative Commons Attribution Share-Alike','Creative Commons Non-Commercial (Any)','Open Data Common','GNU Free Documentation License']
             stat_df['license_id_other'] = stat_df['license_id'].isin(license_id_choices)
             stat_df['license_id_other'] = np.where(stat_df['license_id_other'], 'True', stat_df['license_id'])
             stat_df['license_id'] = np.where(stat_df['license_id_other'] == 'True', stat_df['license_id'], u'อื่นๆ')
@@ -312,7 +308,7 @@ class DatasetImportController(p.toolkit.BaseController):
                 stat_df.loc[stat_df['name'] == pkg_meta['name'], 'success'] = '1'
             except Exception as err:
                 stat_df.loc[stat_df['name'] == pkg_meta['name'], 'success'] = '0'
-                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err)+'\n'
+                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err).encode('utf-8').decode('unicode-escape')+'\n'
                 activity_dict = {"data": {"import_id": data_dict["import_uuid"], "import_status": "Running", "import_log": log_str}, 
                     "user_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
                     "object_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
@@ -380,7 +376,7 @@ class DatasetImportController(p.toolkit.BaseController):
             gis_df["name"] = gis_df["name"].str.lower()
             gis_df["name"].replace('\s', '-', regex=True, inplace=True)
             if data_dict['template_org'] != 'all':
-                gis_df = gis_df.loc[gis_df['owner_org'] == str(data_dict['template_org']).encode('utf-8')]
+                gis_df = gis_df.loc[gis_df['owner_org'] == data_dict['template_org']]
                 gis_df.reset_index(drop=True, inplace=True)
             gis_df["owner_org"] = data_dict['owner_org']
             gis_df["private"] = True
@@ -413,7 +409,7 @@ class DatasetImportController(p.toolkit.BaseController):
             gis_df['data_format'] = np.where(gis_df['data_format_other'] == 'True', gis_df['data_format'], u'อื่นๆ')
             gis_df['data_format_other'].replace('True', '', regex=True, inplace=True)
 
-            license_id_choices = ['Open Data Common', 'Creative Commons Attributions','Creative Commons Attribution Non-Commercial','Creative Commons Attribution Share-Alike','Creative Commons Attribution Non-Commercial Share-Alike','Creative Commons Attribution No-Derivs','Creative Commons Attribution Non-Commercial No-Derivs']
+            license_id_choices = ['License not specified', 'Creative Commons Attributions','Creative Commons Attribution Share-Alike','Creative Commons Non-Commercial (Any)','Open Data Common','GNU Free Documentation License']
             gis_df['license_id_other'] = gis_df['license_id'].isin(license_id_choices)
             gis_df['license_id_other'] = np.where(gis_df['license_id_other'], 'True', gis_df['license_id'])
             gis_df['license_id'] = np.where(gis_df['license_id_other'] == 'True', gis_df['license_id'], u'อื่นๆ')
@@ -464,7 +460,7 @@ class DatasetImportController(p.toolkit.BaseController):
                 gis_df.loc[gis_df['name'] == pkg_meta['name'], 'success'] = '1'
             except Exception as err:
                 gis_df.loc[gis_df['name'] == pkg_meta['name'], 'success'] = '0'
-                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err)+'\n'
+                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err).encode('utf-8').decode('unicode-escape')+'\n'
                 activity_dict = {"data": {"import_id": data_dict["import_uuid"], "import_status": "Running", "import_log": log_str}, 
                     "user_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
                     "object_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
@@ -526,7 +522,7 @@ class DatasetImportController(p.toolkit.BaseController):
             multi_df["name"] = multi_df["name"].str.lower()
             multi_df["name"].replace('\s', '-', regex=True, inplace=True)
             if data_dict['template_org'] != 'all':
-                multi_df = multi_df.loc[multi_df['owner_org'] == str(data_dict['template_org']).encode('utf-8')]
+                multi_df = multi_df.loc[multi_df['owner_org'] == data_dict['template_org']]
                 multi_df.reset_index(drop=True, inplace=True)
             multi_df["owner_org"] = data_dict['owner_org']
             multi_df["private"] = True
@@ -560,7 +556,7 @@ class DatasetImportController(p.toolkit.BaseController):
             multi_df['data_format'] = np.where(multi_df['data_format_other'] == 'True', multi_df['data_format'], u'อื่นๆ')
             multi_df['data_format_other'].replace('True', '', regex=True, inplace=True)
 
-            license_id_choices = ['Open Data Common', 'Creative Commons Attributions','Creative Commons Attribution Non-Commercial','Creative Commons Attribution Share-Alike','Creative Commons Attribution Non-Commercial Share-Alike','Creative Commons Attribution No-Derivs','Creative Commons Attribution Non-Commercial No-Derivs']
+            license_id_choices = ['License not specified', 'Creative Commons Attributions','Creative Commons Attribution Share-Alike','Creative Commons Non-Commercial (Any)','Open Data Common','GNU Free Documentation License']
             multi_df['license_id_other'] = multi_df['license_id'].isin(license_id_choices)
             multi_df['license_id_other'] = np.where(multi_df['license_id_other'], 'True', multi_df['license_id'])
             multi_df['license_id'] = np.where(multi_df['license_id_other'] == 'True', multi_df['license_id'], u'อื่นๆ')
@@ -614,7 +610,7 @@ class DatasetImportController(p.toolkit.BaseController):
                 multi_df.loc[multi_df['name'] == pkg_meta['name'], 'success'] = '1'
             except Exception as err:
                 multi_df.loc[multi_df['name'] == pkg_meta['name'], 'success'] = '0'
-                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err)+'\n'
+                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err).encode('utf-8').decode('unicode-escape')+'\n'
                 activity_dict = {"data": {"import_id": data_dict["import_uuid"], "import_status": "Running", "import_log": log_str}, 
                     "user_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
                     "object_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
@@ -674,7 +670,7 @@ class DatasetImportController(p.toolkit.BaseController):
             other_df["name"] = other_df["name"].str.lower()
             other_df["name"].replace('\s', '-', regex=True, inplace=True)
             if data_dict['template_org'] != 'all':
-                other_df = other_df.loc[other_df['owner_org'] == str(data_dict['template_org']).encode('utf-8')]
+                other_df = other_df.loc[other_df['owner_org'] == data_dict['template_org']]
                 other_df.reset_index(drop=True, inplace=True)
             other_df["owner_org"] = data_dict['owner_org']
             other_df["private"] = True
@@ -708,7 +704,7 @@ class DatasetImportController(p.toolkit.BaseController):
             other_df['data_format'] = np.where(other_df['data_format_other'] == 'True', other_df['data_format'], u'อื่นๆ')
             other_df['data_format_other'].replace('True', '', regex=True, inplace=True)
 
-            license_id_choices = ['Open Data Common', 'Creative Commons Attributions','Creative Commons Attribution Non-Commercial','Creative Commons Attribution Share-Alike','Creative Commons Attribution Non-Commercial Share-Alike','Creative Commons Attribution No-Derivs','Creative Commons Attribution Non-Commercial No-Derivs']
+            license_id_choices = ['License not specified', 'Creative Commons Attributions','Creative Commons Attribution Share-Alike','Creative Commons Non-Commercial (Any)','Open Data Common','GNU Free Documentation License']
             other_df['license_id_other'] = other_df['license_id'].isin(license_id_choices)
             other_df['license_id_other'] = np.where(other_df['license_id_other'], 'True', other_df['license_id'])
             other_df['license_id'] = np.where(other_df['license_id_other'] == 'True', other_df['license_id'], u'อื่นๆ')
@@ -762,7 +758,7 @@ class DatasetImportController(p.toolkit.BaseController):
                 other_df.loc[other_df['name'] == pkg_meta['name'], 'success'] = '1'
             except Exception as err:
                 other_df.loc[other_df['name'] == pkg_meta['name'], 'success'] = '0'
-                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err)+'\n'
+                log_str = 'package_error: '+datetime.datetime.now().isoformat()+' -- ไม่สามารถสร้างชุดข้อมูล: '+str(pkg_meta['name'])+' : '+str(err).encode('utf-8').decode('unicode-escape')+'\n'
                 activity_dict = {"data": {"import_id": data_dict["import_uuid"], "import_status": "Running", "import_log": log_str}, 
                     "user_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 
                     "object_id": model.User.by_name(six.ensure_text(data_dict["importer"])).id, 

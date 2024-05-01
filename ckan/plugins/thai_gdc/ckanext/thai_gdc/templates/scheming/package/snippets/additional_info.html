@@ -55,15 +55,10 @@
         </tr>
       {% endif %}
         {% if pkg_dict.creator_user_id %}
-        {%- set displayname = h.thai_gdc_get_user_display_name(pkg_dict.creator_user_id) %}
           <tr>
             <th scope="row" class="dataset-label">{{ _("Create by") }}</th>
             <td class="dataset-details">
-              {% if displayname == 'default' %}
-                การนำเข้าโดย templete
-              {% else %}
-                {{ h.linked_user(pkg_dict.creator_user_id,0,0) }}
-              {% endif %}
+              {{ h.linked_user(pkg_dict.creator_user_id,0,0) }}
             </td>
           </tr>
         {% endif %}

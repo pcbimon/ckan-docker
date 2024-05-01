@@ -110,10 +110,3 @@ def resource_delete(context, data_dict):
         return {'success': False, 'msg': _('User %s not authorized to delete resource %s') % (user, resource.id)}
     else:
         return {'success': True}
-
-def resource_view_reorder(context, data_dict):
-    try:
-        auth = authz.is_authorized('resource_update', context, {'id': data_dict['resource_id']})
-    except:
-        auth = authz.is_authorized('resource_update', context, {'id': data_dict['id']})
-    return auth

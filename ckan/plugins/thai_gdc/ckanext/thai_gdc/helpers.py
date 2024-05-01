@@ -15,22 +15,11 @@ import ckan.lib.dictization.model_dictize as model_dictize
 from ckanext.thai_gdc.model.opend import OpendModel
 import requests
 from datetime import datetime as dt
-from six import text_type
 
 get_action = logic.get_action
 opend_model = OpendModel()
 
 log = logging.getLogger(__name__)
-
-def get_user_display_name(user):
-    if not isinstance(user, model.User):
-        user_name = text_type(user)
-        user = model.User.get(user_name)
-        if not user:
-            return user_name
-    if user:
-        displayname = user.display_name
-    return displayname
 
 def dataset_bulk_import_log(import_id):
     logs = opend_model.get_dataset_bulk_import_log(import_id)

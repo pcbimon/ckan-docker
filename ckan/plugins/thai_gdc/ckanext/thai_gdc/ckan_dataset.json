@@ -107,11 +107,11 @@
         "field_name": "maintainer",
         "label": {
           "en": "Contact Person",
-          "th": "ชื่อฝ่ายงานสำหรับติดต่อ"
+          "th": "ชื่อผู้ติดต่อ"
         },
         "form_placeholder": {
           "en": "Organization name",
-          "th": "ชื่อฝ่ายหรือกลุ่มงาน"
+          "th": "ชื่อหน่วยงานหรือกลุ่มงาน"
         },
         "form_data_type": ["ข้อมูลระเบียน","ข้อมูลสถิติ","ข้อมูลภูมิสารสนเทศเชิงพื้นที่","ข้อมูลหลากหลายประเภท","ข้อมูลประเภทอื่นๆ"],
         "required": true
@@ -120,12 +120,12 @@
         "field_name": "maintainer_email",
         "label": {
           "en": "Contact Email",
-          "th": "อีเมลสำหรับติดต่อ"
+          "th": "อีเมลผู้ติดต่อ"
         },
         "form_placeholder": "department@org.go.th",
         "display_snippet": "email.html",
         "form_data_type": ["ข้อมูลระเบียน","ข้อมูลสถิติ","ข้อมูลภูมิสารสนเทศเชิงพื้นที่","ข้อมูลหลากหลายประเภท","ข้อมูลประเภทอื่นๆ"],
-        "validators": "not_empty email_validator unicode_safe",
+        "validators": "not_empty email_validator unicode",
         "required": true
       },
       {
@@ -506,14 +506,11 @@
           "en": "Data Category",
           "th": "หมวดหมู่ข้อมูลตามธรรมาภิบาลข้อมูลภาครัฐ"
         },
+        "preset": "select",
         "choices": [
           {
             "value": "ข้อมูลสาธารณะ",
             "label": "ข้อมูลสาธารณะ"
-          },
-          {
-            "value": "ข้อมูลใช้ภายใน",
-            "label": "ข้อมูลใช้ภายใน"
           },
           {
             "value": "ข้อมูลส่วนบุคคล",
@@ -528,75 +525,39 @@
             "label": "ข้อมูลความลับทางราชการ"
           }
         ],
-        "form_snippet": "data_category.html",
-        "display_snippet": "select.html",
-        "validators": "scheming_required",
         "form_data_type": ["ข้อมูลระเบียน","ข้อมูลสถิติ","ข้อมูลภูมิสารสนเทศเชิงพื้นที่","ข้อมูลหลากหลายประเภท","ข้อมูลประเภทอื่นๆ"],
         "required": true
-      },
-      {
-        "field_name": "data_class_level",
-        "label": {
-          "en": "Data Class Level",
-          "th": "ชั้นความลับของข้อมูลภาครัฐ"
-        },
-        "choices": [
-          {
-            "value": "เปิดเผย",
-            "label": "เปิดเผย"
-          },
-          {
-            "value": "เผยแพร่ภายในองค์กร",
-            "label": "เผยแพร่ภายในองค์กร"
-          },
-          {
-            "value": "ลับ",
-            "label": "ลับ"
-          },
-          {
-            "value": "ลับมาก",
-            "label": "ลับมาก"
-          },
-          {
-            "value": "ลับที่สุด",
-            "label": "ลับที่สุด"
-          }
-        ],
-        "form_snippet": "data_class_level.html",
-        "display_snippet": "select.html",
-        "form_data_type": ["ข้อมูลระเบียน","ข้อมูลสถิติ","ข้อมูลภูมิสารสนเทศเชิงพื้นที่","ข้อมูลหลากหลายประเภท","ข้อมูลประเภทอื่นๆ"]
       },
       {
         "field_name": "license_id",
         "label": "License",
         "choices": [
           {
-            "value": "Open Data Common",
-            "label": "Open Data Common"
+            "value": "License not specified",
+            "label": "License not specified"
           },
           {
             "value": "Creative Commons Attributions",
             "label": "Creative Commons Attributions"
           },
           {
-            "value": "Creative Commons Attribution Non-Commercial",
-            "label": "Creative Commons Attribution Non-Commercial"
-          },
-          {
             "value": "Creative Commons Attribution Share-Alike",
             "label": "Creative Commons Attribution Share-Alike"
           },
           {
-            "value": "Creative Commons Attribution Non-Commercial Share-Alike",
-            "label": "Creative Commons Attribution Non-Commercial Share-Alike"
+            "value": "Creative Commons Non-Commercial (Any)",
+            "label": {
+              "en": "Creative Commons Non-Commercial (Any)",
+              "th": "Creative Commons Non-Commercial (Any)"
+            }
           },
           {
-            "value": "Creative Commons Attribution No-Derivs",
-            "label": "Creative Commons Attribution No-Derivs"
+            "value": "Open Data Common",
+            "label": "Open Data Common"
           },
           {
-            "value": "Creative Commons Attribution Non-Commercial No-Derivs",
-            "label": "Creative Commons Attribution Non-Commercial No-Derivs"
+            "value": "GNU Free Documentation License",
+            "label": "GNU Free Documentation License"
           },
           {
             "value": "อื่นๆ",

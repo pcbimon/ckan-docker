@@ -49,9 +49,6 @@ columns = [
         'field': 'data_category',
     },
     {
-        'field': 'data_class_level',
-    },
-    {
         'field': 'license_id',
     },
     {

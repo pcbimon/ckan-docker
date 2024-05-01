@@ -37,7 +37,6 @@ class Thai_GDCPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.Defaul
     def dataset_facets(self, facets_dict, package_type):
         facets_dict['data_type'] = toolkit._('Dataset Type') #ประเภทชุดข้อมูล
         facets_dict['data_category'] = toolkit._('Data Category') #หมวดหมู่ตามธรรมาภิบาลข้อมูล
-        facets_dict['data_class_level'] = toolkit._('Data Class Level') #ชั้นความลับของข้อมูลภาครัฐ
         facets_dict['private'] = toolkit._('Visibility') #การเข้าถึง
         return facets_dict
 
@@ -85,7 +84,7 @@ class Thai_GDCPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.Defaul
                             q_item = 'text:*'+q_item+'*'
                         elif contains_word(q, ['AND','OR','NOT']) and q_item not in ['AND','OR','NOT'] and self._isEnglish(q_item):
                             q_item = 'text:'+q_item
-                        elif not contains_word(q, ['AND','OR','NOT']) and not self._isEnglish(q_item):
+                        elif not contains_word(q, ['AND','OR','NOT']):
                             q_item = '*'+q_item+'*'
                         q_list_result.append(q_item)
                     q = ' '.join(q_list_result)
@@ -180,7 +179,7 @@ class Thai_GDCPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.Defaul
         config_['thai_gdc.gdcatalog_apiregister_url'] = config_.get('thai_gdc.gdcatalog_apiregister_url', 'https://apiregister.gdcatalog.go.th')
         config_['ckan.datastore.sqlsearch.enabled'] = config_.get('ckan.datastore.sqlsearch.enabled', 'false')
         config_['ckan.datastore.search.rows_max'] = config_.get('ckan.datastore.search.rows_max', '10000')
-        config_['ckan.upload.admin.mimetypes'] = config_.get('ckan.upload.admin.mimetypes', 'image/png image/gif image/jpeg image/vnd.microsoft.icon application/zip image/x-icon')
+        config_['ckan.upload.admin.mimetypes'] = config_.get('ckan.upload.admin.mimetypes', 'image/png image/gif image/jpeg image/vnd.microsoft.icon application/zip')
         config_['ckan.upload.admin.types'] = config_.get('ckan.upload.admin.types', 'image application')
 
     def update_config_schema(self, schema):
@@ -290,7 +289,6 @@ class Thai_GDCPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.Defaul
             'resource_view_show': thai_gdc_auth.restrict_resource_show,
             'package_delete': thai_gdc_auth.package_delete,
             'resource_delete': thai_gdc_auth.resource_delete,
-            'resource_view_reorder': thai_gdc_auth.resource_view_reorder,
         }
         return auth_functions
 
@@ -308,7 +306,6 @@ class Thai_GDCPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.Defaul
             'resource_view_create': opend_action.resource_view_create,
             'resource_view_update': opend_action.resource_view_update,
             'resource_view_delete': opend_action.resource_view_delete,
-            'resource_view_reorder' : opend_action.resource_view_reorder,
         }
         return action_functions
 
@@ -354,7 +351,6 @@ class Thai_GDCPlugin(plugins.SingletonPlugin, DefaultTranslation, toolkit.Defaul
             'thai_gdc_get_is_as_a_service': thai_gdc_h.get_is_as_a_service,
             'thai_gdc_get_gdcatalog_version_update': thai_gdc_h.get_gdcatalog_version_update,
             'thai_gdc_users_in_organization': thai_gdc_h.users_in_organization,
-            'thai_gdc_get_user_display_name': thai_gdc_h.get_user_display_name,
             'gdc_agency_get_suggest_view': thai_gdc_h.get_suggest_view,
             'gdc_agency_get_conf_group': thai_gdc_h.get_conf_group,
             'nso_get_last_modified_datasets': thai_gdc_h.get_last_modified_datasets,

@@ -265,6 +265,3 @@ msgstr "แสดงในหน้าหลัก"
 
 msgid "Show"
 msgstr "แสดง"
-
-msgid "Data Class Level"
-msgstr "ชั้นความลับของข้อมูลภาครัฐ"
