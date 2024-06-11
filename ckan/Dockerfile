@@ -1,4 +1,4 @@
-FROM ckan/ckan-base:2.9.10
+FROM ckan/ckan-base:2.10.4
 
 # Install any extensions needed by your CKAN instance
 # See Dockerfile.dev for more details and examples
@@ -12,10 +12,7 @@ RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-pdfview.git#egg=ckanex
 RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=ckanext-xloader' && \ 
    pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
    pip3 install -U requests[security]
-### Test Extension ###
-RUN  pip3 install -e 'git+https://github.com/pcbimon/ckanext-iauthenfunctions.git#egg=ckanext-iauthenfunctions' && \
-     pip3 install -r ${APP_DIR}/src/ckanext-iauthenfunctions/requirements.txt
-RUN python3 ${APP_DIR}/src/ckanext-iauthenfunctions/setup.py develop
+
 ### Thai GDC ###
 # RUN mkdir -p ${APP_DIR}/src/ckanext-thai_gdc
 # COPY plugins/thai_gdc/* ${APP_DIR}/src/ckanext-thai_gdc
