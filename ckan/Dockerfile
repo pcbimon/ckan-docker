@@ -1,4 +1,4 @@
-FROM ckan/ckan-base:2.10.4
+FROM ckan/ckan-base:2.9.9
 
 # Install any extensions needed by your CKAN instance
 # See Dockerfile.dev for more details and examples
@@ -13,6 +13,8 @@ RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=
    pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
    pip3 install -U requests[security]
 
+### OAuth2 ###
+RUN pip3 install -e 'git+https://github.com/pcbimon/ckanext-oauth2#egg=ckanext-oauth2'
 ### Thai GDC ###
 # RUN mkdir -p ${APP_DIR}/src/ckanext-thai_gdc
 # COPY plugins/thai_gdc/* ${APP_DIR}/src/ckanext-thai_gdc
