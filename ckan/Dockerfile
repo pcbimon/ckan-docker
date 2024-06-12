@@ -14,7 +14,17 @@ RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=
    pip3 install -U requests[security]
 
 ### OAuth2 ###
-RUN pip3 install -e 'git+https://github.com/pcbimon/ckanext-oauth2#egg=ckanext-oauth2'
+# RUN pip3 install -e 'git+https://github.com/pcbimon/ckanext-oauth2#egg=ckanext-oauth2'
+# Create a directory for the plugin
+RUN mkdir -p ${APP_DIR}/src/ckanext-oauth2
+# Copy Plugins to CKAN
+COPY plugins/ckanext-oauth2 ${APP_DIR}/src/ckanext-oauth2
+# Set the working directory to the extension directory
+WORKDIR ${APP_DIR}/src/ckanext-oauth2
+# Install the plugin
+RUN pip3 install -e ${APP_DIR}/src/ckanext-oauth2
+# Set the working directory back to the CKAN directory
+WORKDIR ${SRC_DIR}
 ### Thai GDC ###
 # RUN mkdir -p ${APP_DIR}/src/ckanext-thai_gdc
 # COPY plugins/thai_gdc/* ${APP_DIR}/src/ckanext-thai_gdc
