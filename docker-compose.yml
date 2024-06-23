@@ -1,11 +1,10 @@
-version: "3"
-
-
 volumes:
   ckan_storage:
   ckan_xloader_storage:
   pg_data:
   solr_data:
+  pip_cache:
+  site_packages:
 
 services:
 
@@ -77,7 +76,9 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - ckan_xloader_storage:/var/lib/ckan
+      - ckan_storage:/var/lib/ckan
+      - pip_cache:/root/.cache/pip
+      - site_packages:/usr/lib/python3.10/site-packages
     restart: unless-stopped
     healthcheck:
       test: curl --max-time 10 -f http://localhost:5000/api/3 || exit 1
