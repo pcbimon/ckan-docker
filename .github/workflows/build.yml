@@ -48,7 +48,7 @@ jobs:
     -  name: CKAN Xloader build
        uses: docker/build-push-action@v2
        with:
-          context: ./ckan/chanext-xloader
+          context: ./ckan/ckanext-xloader
           file: ./ckan/chanext-xloader/Dockerfile
           push: false
           tags: kowhai/ckan-docker-ckanext-xloader:test-build-only
