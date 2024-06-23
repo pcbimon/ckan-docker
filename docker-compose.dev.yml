@@ -32,11 +32,38 @@ services:
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:5000"]
 
-  datapusher:
-    image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
+  ckan-xloader:
+    build:
+      context: ckan/ckanext-xloader/
+      dockerfile: Dockerfile
+      args:
+        - TZ=${TZ}
+    networks:
+      - ckannet
+      - dbnet
+      - solrnet
+      - redisnet
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      solr:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ckan_storage:/var/lib/ckan
+      - pip_cache:/root/.cache/pip
+      - site_packages:/usr/lib/python3.10/site-packages
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
+      test: curl --max-time 10 -f http://localhost:5000/api/3 || exit 1
+      # first startup and config takes really long
+      start_period: 240s
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   db:
     build:
