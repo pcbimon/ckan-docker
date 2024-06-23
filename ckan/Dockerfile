@@ -1,4 +1,4 @@
-FROM ckan/ckan-base:2.9.9
+FROM ckan/ckan-base:2.10.4
 
 # Install any extensions needed by your CKAN instance
 # See Dockerfile.dev for more details and examples
@@ -14,17 +14,7 @@ RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=
    pip3 install -U requests[security]
 
 ### OAuth2 ###
-# RUN pip3 install -e 'git+https://github.com/pcbimon/ckanext-oauth2#egg=ckanext-oauth2'
-# Create a directory for the plugin
-RUN mkdir -p ${APP_DIR}/src/ckanext-oauth2
-# Copy Plugins to CKAN
-COPY plugins/ckanext-oauth2 ${APP_DIR}/src/ckanext-oauth2
-# Set the working directory to the extension directory
-WORKDIR ${APP_DIR}/src/ckanext-oauth2
-# Install the plugin
-RUN pip3 install -e ${APP_DIR}/src/ckanext-oauth2
-# Set the working directory back to the CKAN directory
-WORKDIR ${SRC_DIR}
+# RUN pip3 install -e 'git+https://github.com/pcbimon/ckanext-oauth2-py3#egg=ckanext-oauth2'
 ### Thai GDC ###
 # RUN mkdir -p ${APP_DIR}/src/ckanext-thai_gdc
 # COPY plugins/thai_gdc/* ${APP_DIR}/src/ckanext-thai_gdc
@@ -34,8 +24,8 @@ WORKDIR ${SRC_DIR}
 
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
-COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
-RUN pip3 install -r ${APP_DIR}/src/ckan/requirements.txt
+# COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
+# RUN pip3 install -r ${APP_DIR}/src/ckan/requirements.txt
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
