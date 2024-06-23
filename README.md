@@ -1,5 +1,6 @@
 # Docker Compose setup for CKAN
 [![Build Status](https://github.com/pcbimon/ckan-docker/actions/workflows/build.yml/badge.svg)](https://github.com/pcbimon/ckan-docker/actions/workflows/build.yml)
+[![Check Valnerability Status]([https://github.com/pcbimon/ckan-docker/actions/workflows/build.yml/badge.svg](https://github.com/pcbimon/ckan-docker/actions/workflows/vulnerability_check.yml/badge.svg))](https://github.com/pcbimon/ckan-docker/actions/workflows/vulnerability_check.yml)
 
 * [1. Overview](#1-overview)
 * [2. Installing Docker](#2-installing-docker)
